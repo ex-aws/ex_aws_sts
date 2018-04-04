@@ -1,27 +1,33 @@
-defmodule ExAws.STS.AuthCache.AssumeRoleCredentialsProvider do
+defmodule ExAws.STS.AuthCache.AssumeRoleCredentialsAdapter do
   @moduledoc false
 
-  @behaviour ExAws.Config.AuthCache.AuthConfigProvider
+  @behaviour ExAws.Config.AuthCache.AuthConfigAdapter
 
   @impl true
-  def auth_config_for(profile, _expiration) do
-    auth = ExAws.CredentialsIni.security_credentials(profile)
+  def adapt_auth_config(auth, _profile, expiration) do
+    auth =
+      case auth do
+        %{source_profile: source_profile} ->
+          source_profile_auth = ExAws.CredentialsIni.security_credentials(source_profile)
+          Map.merge(auth, source_profile_auth)
 
-    if %{source_profile: source_profile} = auth do
-      auth = ExAws.CredentialsIni.security_credentials(source_profile)
-    end
+        _ ->
+          auth
+      end
 
     security_credentials_for(auth, expiration)
   end
 
   defp security_credentials_for(%{role_arn: role_arn} = auth, expiration) do
-    assume_role_options = [
-      duration: credential_duration_seconds(expiration)
-    ]
-
-    if auth[:external_id] do
-      assume_role_options = Keyword.put(assume_role_options, :external_id, auth[:external_id])
-    end
+    assume_role_options =
+      if auth[:external_id] do
+        [
+          duration: credential_duration_seconds(expiration),
+          external_id: auth[:external_id]
+        ]
+      else
+        [ duration: credential_duration_seconds(expiration) ]
+      end
 
     role_session_name = auth[:role_session_name] || "default_session"
 
@@ -33,7 +39,10 @@ defmodule ExAws.STS.AuthCache.AssumeRoleCredentialsProvider do
       access_key_id: result.body.access_key_id,
       secret_access_key: result.body.secret_access_key,
       security_token: result.body.session_token,
-      expiration: result.body.expiration
+      expiration: result.body.expiration,
+      role_arn: role_arn,
+      role_session_name: role_session_name,
+      source_profile: auth[:source_profile]
     }
   end
 
