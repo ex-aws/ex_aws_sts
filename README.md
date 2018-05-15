@@ -20,6 +20,23 @@ end
 
 Documentation can be found at [https://hexdocs.pm/ex_aws_sts](https://hexdocs.pm/ex_aws_sts).
 
+## Role based authentication
+
+`ExAws.STS` allows to authentication based on `role_arn` and `source_profile` as specified in the 
+`awscli` config file.
+ When specified in your `~/.aws/config` you can set 
+  
+```
+config :ex_aws,
+  secret_access_key: [{:awscli, "profile_name", 30}],
+  access_key_id: [{:awscli, "profile_name", 30}],
+  awscli_auth_adapter: ExAws.STS.AuthCache.AssumeRoleCredentialsProvider
+```
+
+and if the profile `profile_name` sets a `role_arn` then this will make ExAws 
+issue an `AssumeRoleCredentials` request to fetch the `access_key_id` 
+and `secret_access_key`.
+
 ## License
 
 The MIT License (MIT)
