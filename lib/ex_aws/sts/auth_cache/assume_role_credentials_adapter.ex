@@ -33,7 +33,7 @@ defmodule ExAws.STS.AuthCache.AssumeRoleCredentialsAdapter do
 
     {:ok, result} = role_arn
                     |> ExAws.STS.assume_role(role_session_name, assume_role_options)
-                    |> ExAws.Operation.perform(ExAws.Config.new(:sts))
+                    |> ExAws.request(auth)
 
     %{
       access_key_id: result.body.access_key_id,
