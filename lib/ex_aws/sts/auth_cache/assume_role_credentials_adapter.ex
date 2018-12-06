@@ -1,52 +1,41 @@
 defmodule ExAws.STS.AuthCache.AssumeRoleCredentialsAdapter do
-  @moduledoc false
+  @moduledoc """
+  Provides a custom Adapter which intercepts ExAWS configuration
+  which uses Role ARN + Source Profile for authentication.
+  """
 
   @behaviour ExAws.Config.AuthCache.AuthConfigAdapter
 
   @impl true
-  def adapt_auth_config(auth, _profile, expiration) do
-    auth =
-      case auth do
-        %{source_profile: source_profile} ->
-          source_profile_auth = ExAws.CredentialsIni.security_credentials(source_profile)
-          Map.merge(auth, source_profile_auth)
-
-        _ ->
-          auth
-      end
-
-    security_credentials_for(auth, expiration)
+  def adapt_auth_config(auth, profile, expiration)
+  def adapt_auth_config(%{source_profile: source_profile} = auth, _, expiration) do
+    source_profile_auth = ExAws.CredentialsIni.security_credentials(source_profile)
+    get_security_credentials(auth, source_profile_auth, expiration)
   end
+  def adapt_auth_config(auth, _, _), do: auth
 
-  defp security_credentials_for(%{role_arn: role_arn} = auth, expiration) do
-    assume_role_options =
-      if auth[:external_id] do
-        [
-          duration: credential_duration_seconds(expiration),
-          external_id: auth[:external_id]
-        ]
-      else
-        [ duration: credential_duration_seconds(expiration) ]
-      end
-
-    role_session_name = auth[:role_session_name] || "default_session"
-
-    {:ok, result} = role_arn
-                    |> ExAws.STS.assume_role(role_session_name, assume_role_options)
-                    |> ExAws.Operation.perform(ExAws.Config.new(:sts))
-
-    %{
-      access_key_id: result.body.access_key_id,
-      secret_access_key: result.body.secret_access_key,
-      security_token: result.body.session_token,
-      expiration: result.body.expiration,
-      role_arn: role_arn,
-      role_session_name: role_session_name,
-      source_profile: auth[:source_profile]
-    }
+  defp get_security_credentials(auth, source_profile_auth, expiration) do
+    duration = credential_duration_seconds(expiration)
+    role_session_name = Map.get(auth, :role_session_name, "default_session")
+    assume_role_options = case auth do
+      %{external_id: external_id} -> [duration: duration, external_id: external_id]
+      _ -> [duration: duration]
+    end
+    assume_role_request = ExAws.STS.assume_role(auth.role_arn, role_session_name, assume_role_options)
+    assume_role_config = ExAws.Config.new(:sts, source_profile_auth)
+    with {:ok, result} <- ExAws.Operation.perform(assume_role_request, assume_role_config) do
+      %{
+        access_key_id: result.body.access_key_id,
+        secret_access_key: result.body.secret_access_key,
+        security_token: result.body.session_token,
+        role_arn: auth.role_arn,
+        role_session_name: role_session_name,
+        source_profile: auth.source_profile
+      }
+    else {:error, reason} ->
+      {:error, reason}
+    end
   end
-
-  defp security_credentials_for(auth, _expiration), do: auth
 
   defp credential_duration_seconds(expiration_ms) do
     # assume_role accepts a duration between 900 and 3600 seconds
@@ -54,6 +43,6 @@ defmodule ExAws.STS.AuthCache.AssumeRoleCredentialsAdapter do
     # the refresh interval.
     {min, max, buffer} = {900, 3600, 5}
     seconds = div(expiration_ms, 1000) + buffer
-    Enum.max([ Enum.min([max, seconds]), min ])
+    Enum.max([Enum.min([max, seconds]), min])
   end
 end
