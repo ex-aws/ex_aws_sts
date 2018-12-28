@@ -31,7 +31,7 @@ defmodule ExAws.STS.AuthCache.AssumeRoleCredentialsAdapter do
 
     assume_role_config = ExAws.Config.new(:sts, source_profile_auth)
 
-    with {:ok, result} <- ExAws.Operation.perform(assume_role_request, assume_role_config) do
+    with {:ok, result} <- ExAws.request(assume_role_request, assume_role_config) do
       %{
         access_key_id: result.body.access_key_id,
         secret_access_key: result.body.secret_access_key,
