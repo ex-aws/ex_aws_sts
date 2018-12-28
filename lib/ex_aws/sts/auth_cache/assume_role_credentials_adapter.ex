@@ -26,14 +26,15 @@ defmodule ExAws.STS.AuthCache.AssumeRoleCredentialsAdapter do
           external_id: auth[:external_id]
         ]
       else
-        [ duration: credential_duration_seconds(expiration) ]
+        [duration: credential_duration_seconds(expiration)]
       end
 
     role_session_name = auth[:role_session_name] || "default_session"
 
-    {:ok, result} = role_arn
-                    |> ExAws.STS.assume_role(role_session_name, assume_role_options)
-                    |> ExAws.Operation.perform(ExAws.Config.new(:sts))
+    {:ok, result} =
+      role_arn
+      |> ExAws.STS.assume_role(role_session_name, assume_role_options)
+      |> ExAws.Operation.perform(ExAws.Config.new(:sts))
 
     %{
       access_key_id: result.body.access_key_id,
@@ -54,6 +55,6 @@ defmodule ExAws.STS.AuthCache.AssumeRoleCredentialsAdapter do
     # the refresh interval.
     {min, max, buffer} = {900, 3600, 5}
     seconds = div(expiration_ms, 1000) + buffer
-    Enum.max([ Enum.min([max, seconds]), min ])
+    Enum.max([Enum.min([max, seconds]), min])
   end
 end
