@@ -4,16 +4,16 @@ defmodule ExAws.STS.Mixfile do
   def project do
     [
       app: :ex_aws_sts,
-      version: "2.0.1",
+      version: "2.0.0",
       elixir: "~> 1.5",
-      elixirc_paths: elixirc_paths(Mix.env()),
-      start_permanent: Mix.env() == :prod,
+      elixirc_paths: elixirc_paths(Mix.env),
+      start_permanent: Mix.env == :prod,
       deps: deps()
     ]
   end
 
   defp elixirc_paths(:test), do: ["lib", "test/support"]
-  defp elixirc_paths(_), do: ["lib"]
+  defp elixirc_paths(_),     do: ["lib",]
 
   # Run "mix help compile.app" to learn about applications.
   def application do
@@ -28,15 +28,14 @@ defmodule ExAws.STS.Mixfile do
       {:hackney, ">= 0.0.0", only: [:dev, :test]},
       {:sweet_xml, ">= 0.0.0", only: [:dev, :test]},
       {:poison, ">= 0.0.0", only: [:dev, :test]},
-      {:ex_doc, ">= 0.0.0", only: :dev},
-      ex_aws()
+      ex_aws(),
     ]
   end
 
   defp ex_aws() do
     case System.get_env("AWS") do
       "LOCAL" -> {:ex_aws, path: "../ex_aws"}
-      _ -> {:ex_aws, "~> 2.0"}
+      _ -> {:ex_aws, "~> 2.0.0"}
     end
   end
 end
