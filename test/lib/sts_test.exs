@@ -2,10 +2,15 @@ defmodule ExAws.STSTest do
   use ExUnit.Case, async: true
   alias ExAws.STS
 
-  test "basic actual hit on the service" do
-    result = ExAws.STS.get_caller_identity() |> ExAws.request()
+  test "#get_caller_identity" do
+    version = "2011-06-15"
 
-    assert {:ok, %{body: %{account: _}}} = result
+    expected = %{
+      "Action" => "GetCallerIdentity",
+      "Version" => version
+    }
+
+    assert expected == STS.get_caller_identity().params
   end
 
   test "#assume_role" do
