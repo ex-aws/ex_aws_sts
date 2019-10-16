@@ -18,6 +18,24 @@ if Code.ensure_loaded?(SweetXml) do
       {:ok, Map.put(resp, :body, parsed_body)}
     end
 
+    def parse({:ok, %{body: xml} = resp}, :assume_role_with_web_identity) do
+      parsed_body =
+        xml
+        |> SweetXml.xpath(~x"//AssumeRoleWithWebIdentityResponse",
+          access_key_id: ~x"./AssumeRoleWithWebIdentityResult/Credentials/AccessKeyId/text()"s,
+          secret_access_key:
+            ~x"./AssumeRoleWithWebIdentityResult/Credentials/SecretAccessKey/text()"s,
+          session_token: ~x"./AssumeRoleWithWebIdentityResult/Credentials/SessionToken/text()"s,
+          expiration: ~x"./AssumeRoleWithWebIdentityResult/Credentials/Expiration/text()"s,
+          assumed_role_id:
+            ~x"./AssumeRoleWithWebIdentityResult/AssumedRoleUser/AssumedRoleId/text()"s,
+          assumed_role_arn: ~x"./AssumeRoleWithWebIdentityResult/AssumedRoleUser/Arn/text()"s,
+          request_id: request_id_xpath()
+        )
+
+      {:ok, Map.put(resp, :body, parsed_body)}
+    end
+
     def parse({:ok, %{body: xml} = resp}, :get_caller_identity) do
       parsed_body =
         SweetXml.xpath(xml, ~x"//GetCallerIdentityResponse",

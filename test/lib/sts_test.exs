@@ -23,6 +23,23 @@ defmodule ExAws.STSTest do
     assert expected == STS.assume_role(arn, name).params
   end
 
+  test "#assume_role_with_web_identity" do
+    version = "2011-06-15"
+    arn = "1111111/test_role"
+    name = "test role"
+    token = "atoken"
+
+    expected = %{
+      "Action" => "AssumeRoleWithWebIdentity",
+      "RoleSessionName" => name,
+      "RoleArn" => arn,
+      "WebIdentityToken" => token,
+      "Version" => version
+    }
+
+    assert expected == STS.assume_role_with_web_identity(arn, name, token).params
+  end
+
   test "#decode_authorization_message" do
     version = "2011-06-15"
     message = "msgcontent"
