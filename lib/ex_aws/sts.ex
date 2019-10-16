@@ -28,6 +28,27 @@ defmodule ExAws.STS do
     request(:assume_role, params)
   end
 
+  @type assume_role_with_saml_opt ::
+          {:duration, pos_integer}
+          | {:policy, policy}
+
+  @doc "Assume Role with SAML"
+  @spec assume_role_with_saml(
+          principal_arn :: String.t(),
+          role_arn :: String.t(),
+          saml_assertion :: String.t(),
+          [assume_role_opt]
+        ) :: ExAws.Operation.Query.t()
+  def assume_role_with_saml(principal_arn, role_arn, saml_assertion, opts \\ []) do
+    params =
+      parse_opts(opts)
+      |> Map.put("PrincipalArn", principal_arn)
+      |> Map.put("RoleArn", role_arn)
+      |> Map.put("SAMLAssertion", saml_assertion)
+
+    request(:assume_role_with_s_a_m_l, params)
+  end
+
   @doc "Decode Authorization Message"
   @spec decode_authorization_message(message :: String.t()) :: ExAws.Operation.Query.t()
   def decode_authorization_message(message) do

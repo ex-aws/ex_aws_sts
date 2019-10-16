@@ -23,6 +23,23 @@ defmodule ExAws.STSTest do
     assert expected == STS.assume_role(arn, name).params
   end
 
+  test "#assume_role_with_saml" do
+    version = "2011-06-15"
+    principal_arn = "1111111/test_principal"
+    role_arn = "1111111/test_role"
+    saml_assertion = "assertioncontent" |> Base.encode64()
+
+    expected = %{
+      "Action" => "AssumeRoleWithSAML",
+      "PrincipalArn" => principal_arn,
+      "RoleArn" => role_arn,
+      "SAMLAssertion" => saml_assertion,
+      "Version" => version
+    }
+
+    assert expected == STS.assume_role_with_saml(principal_arn, role_arn, saml_assertion).params
+  end
+
   test "#decode_authorization_message" do
     version = "2011-06-15"
     message = "msgcontent"
