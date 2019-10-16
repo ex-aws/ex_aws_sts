@@ -19,11 +19,11 @@ defmodule ExAws.STS do
   @doc "Assume Role"
   @spec assume_role(role_arn :: String.t(), role_session_name :: String.t(), [assume_role_opt]) ::
           ExAws.Operation.Query.t()
-  def assume_role(role_arn, role_name, opts \\ []) do
+  def assume_role(role_arn, role_session_name, opts \\ []) do
     params =
       parse_opts(opts)
       |> Map.put("RoleArn", role_arn)
-      |> Map.put("RoleSessionName", role_name)
+      |> Map.put("RoleSessionName", role_session_name)
 
     request(:assume_role, params)
   end
