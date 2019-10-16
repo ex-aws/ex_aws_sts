@@ -53,6 +53,19 @@ defmodule ExAws.STSTest do
     assert expected == STS.decode_authorization_message(message).params
   end
 
+  test "#get_access_key_info" do
+    version = "2011-06-15"
+    key_id = "AKIAI44QH8DHBEXAMPLE"
+
+    expected = %{
+      "Action" => "GetAccessKeyInfo",
+      "AccessKeyId" => key_id,
+      "Version" => version
+    }
+
+    assert expected == STS.get_access_key_info(key_id).params
+  end
+
   test "#get_federation_token" do
     version = "2011-06-15"
     duration = 900
