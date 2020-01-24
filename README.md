@@ -22,6 +22,12 @@ Documentation can be found at [https://hexdocs.pm/ex_aws_sts](https://hexdocs.pm
 
 ## Role based authentication
 
+AWS CLI config files are supported, but require an additional dependency:
+
+```elixir
+{:configparser_ex, "~> 2.0"}
+```
+
 `ExAws.STS` allows to authentication based on `role_arn` and `source_profile` as specified in the 
 `awscli` config file.
  When specified in your `~/.aws/config` you can set 
