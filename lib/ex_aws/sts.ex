@@ -19,13 +19,35 @@ defmodule ExAws.STS do
   @doc "Assume Role"
   @spec assume_role(role_arn :: String.t(), role_session_name :: String.t(), [assume_role_opt]) ::
           ExAws.Operation.Query.t()
-  def assume_role(role_arn, role_name, opts \\ []) do
+  def assume_role(role_arn, role_session_name, opts \\ []) do
     params =
       parse_opts(opts)
       |> Map.put("RoleArn", role_arn)
-      |> Map.put("RoleSessionName", role_name)
+      |> Map.put("RoleSessionName", role_session_name)
 
     request(:assume_role, params)
+  end
+
+  @type assume_role_with_web_identity_opt ::
+          {:duration, pos_integer}
+          | {:provider_id, binary}
+          | {:policy, policy}
+
+  @doc "Assume Role with Web Identity"
+  @spec assume_role_with_web_identity(
+          role_arn :: String.t(),
+          role_session_name :: String.t(),
+          web_identity_token :: String.t(),
+          [assume_role_with_web_identity_opt]
+        ) :: ExAws.Operation.Query.t()
+  def assume_role_with_web_identity(role_arn, role_session_name, web_identity_token, opts \\ []) do
+    params =
+      parse_opts(opts)
+      |> Map.put("RoleArn", role_arn)
+      |> Map.put("RoleSessionName", role_session_name)
+      |> Map.put("WebIdentityToken", web_identity_token)
+
+    request(:assume_role_with_web_identity, params)
   end
 
   @doc "Decode Authorization Message"
@@ -96,5 +118,6 @@ defmodule ExAws.STS do
   defp parse_opt(opts, {:duration, val}), do: Map.put(opts, "DurationSeconds", val)
   defp parse_opt(opts, {:token_code, val}), do: Map.put(opts, "TokenCode", val)
   defp parse_opt(opts, {:serial_number, val}), do: Map.put(opts, "SerialNumber", val)
+  defp parse_opt(opts, {:provider_id, val}), do: Map.put(opts, "ProviderId", val)
   defp parse_opt(opts, {:policy, val}), do: Map.put(opts, "Policy", Poison.encode!(val))
 end
