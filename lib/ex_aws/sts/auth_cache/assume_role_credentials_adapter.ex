@@ -7,14 +7,21 @@ defmodule ExAws.STS.AuthCache.AssumeRoleCredentialsAdapter do
   @behaviour ExAws.Config.AuthCache.AuthConfigAdapter
 
   @impl true
-  def adapt_auth_config(auth, profile, expiration)
+  def adapt_auth_config(profile, expiration) do
+    adapt_auth_config(profile, expiration, &load_credentials/1)
+  end
 
-  def adapt_auth_config(%{source_profile: source_profile} = auth, _, expiration) do
-    source_profile_auth = ExAws.CredentialsIni.security_credentials(source_profile)
+  def adapt_auth_config(profile, expiration, loader) do
+    auth = loader.(profile)
+    adapt_auth_config(auth, profile, expiration, loader)
+  end
+
+  def adapt_auth_config(%{source_profile: source_profile} = auth, _, expiration, loader) do
+    source_profile_auth = loader.(source_profile)
     get_security_credentials(auth, source_profile_auth, expiration)
   end
 
-  def adapt_auth_config(auth, _, _), do: auth
+  def adapt_auth_config(auth, _, _, _), do: auth
 
   defp get_security_credentials(auth, source_profile_auth, expiration) do
     duration = credential_duration_seconds(expiration)
@@ -53,5 +60,9 @@ defmodule ExAws.STS.AuthCache.AssumeRoleCredentialsAdapter do
     {min, max, buffer} = {900, 3600, 5}
     seconds = div(expiration_ms, 1000) + buffer
     Enum.max([Enum.min([max, seconds]), min])
+  end
+
+  defp load_credentials(profile) do
+    ExAws.CredentialsIni.security_credentials(profile)
   end
 end
