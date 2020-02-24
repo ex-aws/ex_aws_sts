@@ -43,6 +43,20 @@ and if the profile `profile_name` sets a `role_arn` then this will make ExAws
 issue an `AssumeRoleCredentials` request to fetch the `access_key_id` 
 and `secret_access_key`.
 
+## Web Identity for Role based authentication
+
+Similarly, it is possible to use a web identity token to perform the assume role operation. It currently uses the following env vars to obtain it:
+
+`AWS_WEB_IDENTITY_TOKEN_FILE`: path of the file with the web identity token
+`AWS_ROLE_ARN`: role to be assumed
+
+```
+config :ex_aws,
+  secret_access_key: [{:awscli, "profile_name", 30}],
+  access_key_id: [{:awscli, "profile_name", 30}],
+  awscli_auth_adapter: ExAws.STS.AuthCache.AssumeRoleWebIdentityAdapter
+```
+
 ## License
 
 The MIT License (MIT)
