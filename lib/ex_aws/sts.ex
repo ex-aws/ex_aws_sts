@@ -58,6 +58,12 @@ defmodule ExAws.STS do
     })
   end
 
+  @doc "Get Access Key Info"
+  @spec get_access_key_info(key_id :: String.t()) :: ExAws.Operation.Query.t()
+  def get_access_key_info(key_id) do
+    request(:get_access_key_info, %{"AccessKeyId" => key_id})
+  end
+
   @doc "Get Caller Identity"
   def get_caller_identity() do
     request(:get_caller_identity, %{})
