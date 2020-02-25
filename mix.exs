@@ -16,8 +16,7 @@ defmodule ExAws.STS.Mixfile do
       deps: deps(),
       name: @name,
       package: package(),
-      docs: [main: @name, source_ref: "v#{@version}",
-        source_url: @url]
+      docs: [main: @name, source_ref: "v#{@version}", source_url: @url]
     ]
   end
 
