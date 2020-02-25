@@ -1,5 +1,6 @@
 defmodule ExAws.STSTest do
   use ExUnit.Case, async: true
+
   alias ExAws.STS
 
   test "basic actual hit on the service" do
@@ -12,15 +13,17 @@ defmodule ExAws.STSTest do
     version = "2011-06-15"
     arn = "1111111/test_role"
     name = "test role"
+    external_id = "test id"
 
     expected = %{
       "Action" => "AssumeRole",
       "RoleSessionName" => name,
       "RoleArn" => arn,
-      "Version" => version
+      "Version" => version,
+      "ExternalId" => external_id
     }
 
-    assert expected == STS.assume_role(arn, name).params
+    assert expected == STS.assume_role(arn, name, external_id: external_id).params
   end
 
   test "#assume_role_with_web_identity" do
