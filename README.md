@@ -50,7 +50,7 @@ Similarly, it is possible to use a web identity token to perform the assume role
 `AWS_WEB_IDENTITY_TOKEN_FILE`: path of the file with the web identity token
 `AWS_ROLE_ARN`: role to be assumed
 
-```
+```elixir
 config :ex_aws,
   secret_access_key: [{:awscli, "profile_name", 30}],
   access_key_id: [{:awscli, "profile_name", 30}],
