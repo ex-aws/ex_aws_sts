@@ -33,7 +33,7 @@ defmodule ExAws.STS.AuthCache.AssumeRoleCredentialsAdapterTest do
     }
 
     assert expected ==
-             AssumeRoleCredentialsAdapter.adapt_auth_config(profile, 300, &test_loader/1)
+             AssumeRoleCredentialsAdapter.adapt_auth_config(auth, profile, 300, &test_loader/1)
   end
 
   defp test_loader("default") do
