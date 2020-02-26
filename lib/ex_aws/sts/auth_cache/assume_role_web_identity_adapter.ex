@@ -1,7 +1,7 @@
 defmodule ExAws.STS.AuthCache.AssumeRoleWebIdentityAdapter do
   @moduledoc """
-  Provides a custom Adapter which intercepts ExAWS configuration
-  which uses Role ARN + Source Profile for authentication.
+  Provides a custom Adapter that intercepts ExAWS configuration
+  which uses Role ARN + Web Identity Tokens for authentication.
   """
 
   @behaviour ExAws.Config.AuthCache.AuthConfigAdapter

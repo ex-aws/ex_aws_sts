@@ -1,6 +1,6 @@
 defmodule ExAws.STS.AuthCache.AssumeRoleCredentialsAdapter do
   @moduledoc """
-  Provides a custom Adapter which intercepts ExAWS configuration
+  Provides a custom Adapter that intercepts ExAWS configuration
   which uses Role ARN + Source Profile for authentication.
   """
 
