@@ -59,7 +59,7 @@ defmodule ExAws.STS do
           principal_arn :: String.t(),
           role_arn :: String.t(),
           saml_assertion :: String.t(),
-          [assume_role_opt]
+          [assume_role_with_saml_opt]
         ) :: ExAws.Operation.Query.t()
   def assume_role_with_saml(principal_arn, role_arn, saml_assertion, opts \\ []) do
     params =
