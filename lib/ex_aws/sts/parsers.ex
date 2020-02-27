@@ -50,12 +50,12 @@ if Code.ensure_loaded?(SweetXml) do
       parsed_body =
         xml
         |> SweetXml.xpath(~x"//AssumeRoleWithSAMLResponse",
-          access_key_id: ~x"./AssumeRoleWithSAMLResult/Credentials/AccessKeyId/text()"s,
-          secret_access_key: ~x"./AssumeRoleWithSAMLResult/Credentials/SecretAccessKey/text()"s,
-          session_token: ~x"./AssumeRoleWithSAMLResult/Credentials/SessionToken/text()"s,
-          expiration: ~x"./AssumeRoleWithSAMLResult/Credentials/Expiration/text()"s,
-          assumed_role_id: ~x"./AssumeRoleWithSAMLResult/AssumedRoleUser/AssumedRoleId/text()"s,
-          assumed_role_arn: ~x"./AssumeRoleWithSAMLResult/AssumedRoleUser/Arn/text()"s,
+          access_key_id: ~x"./AssumeRoleResult/Credentials/AccessKeyId/text()"s,
+          secret_access_key: ~x"./AssumeRoleResult/Credentials/SecretAccessKey/text()"s,
+          session_token: ~x"./AssumeRoleResult/Credentials/SessionToken/text()"s,
+          expiration: ~x"./AssumeRoleResult/Credentials/Expiration/text()"s,
+          assumed_role_id: ~x"./AssumeRoleResult/AssumedRoleUser/AssumedRoleId/text()"s,
+          assumed_role_arn: ~x"./AssumeRoleResult/AssumedRoleUser/Arn/text()"s,
           request_id: request_id_xpath()
         )
 
@@ -122,8 +122,8 @@ if Code.ensure_loaded?(SweetXml) do
       parsed_body =
         xml
         |> SweetXml.xpath(~x"//DecodeAuthorizationMessageResponse",
-          decoded_message: ~x"./DecodeAuthorizationMessageResult/DecodedMessage/text()"s,
-          request_id: request_id_xpath()
+          decoded_message: ~x"./DecodedMessage/text()"s,
+          request_id: ~x"./RequestId/text()"s
         )
         |> Map.update!(:decoded_message, fn msg -> config[:json_codec].decode!(msg) end)
 
