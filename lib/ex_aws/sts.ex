@@ -86,6 +86,7 @@ defmodule ExAws.STS do
   end
 
   @doc "Get Caller Identity"
+  @spec get_caller_identity() :: ExAws.Operation.Query.t()
   def get_caller_identity() do
     request(:get_caller_identity, %{})
   end
