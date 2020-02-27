@@ -1,0 +1,27 @@
+<AssumeRoleWithSAMLResponse xmlns="https://sts.amazonaws.com/doc/2011-06-15/">
+  <AssumeRoleResult>
+    <Issuer>https://integ.example.com/idp/shibboleth</Issuer>
+    <AssumedRoleUser>
+      <Arn>arn:aws:sts::123456789012:assumed-role/TestSaml</Arn>
+      <AssumedRoleId>ARO456EXAMPLE789:TestSaml</AssumedRoleId>
+    </AssumedRoleUser>
+    <Credentials>
+      <AccessKeyId>ASIAV3ZUEFP6EXAMPLE</AccessKeyId>
+      <SecretAccessKey>8P+SQvWIuLnKhh8d++jpw0nNmQRBZvNEXAMPLEKEY</SecretAccessKey>
+      <SessionToken> IQoJb3JpZ2luX2VjEOz////////////////////wEXAMPLEtMSJHMEUCIDoKK3JH9uG
+      QE1z0sINr5M4jk+Na8KHDcCYRVjJCZEvOAiEA3OvJGtw1EcViOleS2vhs8VdCKFJQWP
+      QrmGdeehM4IC1NtBmUpp2wUE8phUZampKsburEDy0KPkyQDYwT7WZ0wq5VSXDvp75YU
+      9HFvlRd8Tx6q6fE8YQcHNVXAkiY9q6d+xo0rKwT38xVqr7ZD0u0iPPkUL64lIZbqBAz
+      +scqKmlzm8FDrypNC9Yjc8fPOLn9FX9KSYvKTr4rvx3iSIlTJabIQwj2ICCR/oLxBA== </SessionToken>
+      <Expiration>2019-11-01T20:26:47Z</Expiration>
+    </Credentials>
+    <Audience>https://signin.aws.amazon.com/saml</Audience>
+    <SubjectType>transient</SubjectType>
+    <PackedPolicySize>6</PackedPolicySize>
+    <NameQualifier>SbdGOnUkh1i4+EXAMPLExL/jEvs=</NameQualifier>
+    <Subject>SamlExample</Subject>
+  </AssumeRoleResult>
+  <ResponseMetadata>
+    <RequestId>c6104cbe-af31-11e0-8154-cbc7ccf896c7</RequestId>
+  </ResponseMetadata>
+</AssumeRoleWithSAMLResponse>

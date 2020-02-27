@@ -1,0 +1,8 @@
+<GetAccessKeyInfoResponse xmlns="https://sts.amazonaws.com/doc/2011-06-15/">
+  <GetAccessKeyInfoResult>
+    <Account>111122223333</Account>
+  </GetAccessKeyInfoResult>
+  <ResponseMetadata>
+    <RequestId>7a62c49f-347e-4fc4-9331-6e8eEXAMPLE</RequestId>
+  </ResponseMetadata>
+</GetAccessKeyInfoResponse>
