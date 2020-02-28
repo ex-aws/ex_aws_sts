@@ -22,11 +22,14 @@ Documentation can be found at [https://hexdocs.pm/ex_aws_sts](https://hexdocs.pm
 
 ## Role based authentication
 
-AWS CLI config files are supported, but require an additional dependency:
+Using the `:awscli_auth_adapter` option of `ex_aws` is supported, but requires additional dependencies:
 
 ```elixir
+{:sweet_xml, "~> 0.6"}
 {:configparser_ex, "~> 2.0"}
 ```
+
+### Using AWS CLI config file with source profile
 
 `ExAws.STS` allows to authentication based on `role_arn` and `source_profile` as specified in the 
 `awscli` config file.
@@ -43,7 +46,7 @@ and if the profile `profile_name` sets a `role_arn` then this will make ExAws
 issue an `AssumeRoleCredentials` request to fetch the `access_key_id` 
 and `secret_access_key`.
 
-## Web Identity for Role based authentication
+### Using Web Identity tokens from ENV vars
 
 Similarly, it is possible to use a web identity token to perform the assume role operation. It currently uses the following env vars to obtain it:
 

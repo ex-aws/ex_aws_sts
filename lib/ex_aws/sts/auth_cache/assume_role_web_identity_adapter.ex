@@ -53,11 +53,13 @@ defmodule ExAws.STS.AuthCache.AssumeRoleWebIdentityAdapter do
 
   defp loader(config) do
     %{
-      access_key_id: "dummy",
-      secret_access_key: "dummy",
       role_arn: env_role_arn(config),
       role_session_name: role_session_name(config),
       web_identity_token: web_identity_token(config)
+      # necessary for now due to how ExAws.request() works
+      access_key_id: "dummy",
+      # necessary for now due to how ExAws.request() works
+      secret_access_key: "dummy",
     }
   end
 
