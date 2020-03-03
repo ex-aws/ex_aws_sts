@@ -7,13 +7,8 @@ defmodule ExAws.STS.AuthCache.AssumeRoleCredentialsAdapter do
   @behaviour ExAws.Config.AuthCache.AuthConfigAdapter
 
   @impl true
-  def adapt_auth_config(profile, expiration) do
-    adapt_auth_config(profile, expiration, &load_credentials/1)
-  end
-
-  def adapt_auth_config(profile, expiration, loader) do
-    auth = loader.(profile)
-    adapt_auth_config(auth, profile, expiration, loader)
+  def adapt_auth_config(auth, profile, expiration) do
+    adapt_auth_config(auth, profile, expiration, &load_credentials/1)
   end
 
   def adapt_auth_config(%{source_profile: source_profile} = auth, _, expiration, loader) do
