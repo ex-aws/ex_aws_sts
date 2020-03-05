@@ -1,0 +1,8 @@
+<DecodeAuthorizationMessageResponse xmlns="http://sts.amazonaws.com/doc/2011-06-15/">
+  <RequestId>6624a9ca-cd25-4f50-b2a5-7ba65bf07453</RequestId>
+  <DecodedMessage>
+    {
+      "allowed": "false"
+    }
+  </DecodedMessage>
+</DecodeAuthorizationMessageResponse>

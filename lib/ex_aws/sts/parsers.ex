@@ -36,6 +36,32 @@ if Code.ensure_loaded?(SweetXml) do
       {:ok, Map.put(resp, :body, parsed_body)}
     end
 
+    def parse({:ok, %{body: xml} = resp}, :get_access_key_info) do
+      parsed_body =
+        SweetXml.xpath(xml, ~x"//GetAccessKeyInfoResponse",
+          account: ~x"./GetAccessKeyInfoResult/Account/text()"s,
+          request_id: request_id_xpath()
+        )
+
+      {:ok, Map.put(resp, :body, parsed_body)}
+    end
+
+    def parse({:ok, %{body: xml} = resp}, :assume_role_with_s_a_m_l) do
+      parsed_body =
+        xml
+        |> SweetXml.xpath(~x"//AssumeRoleWithSAMLResponse",
+          access_key_id: ~x"./AssumeRoleResult/Credentials/AccessKeyId/text()"s,
+          secret_access_key: ~x"./AssumeRoleResult/Credentials/SecretAccessKey/text()"s,
+          session_token: ~x"./AssumeRoleResult/Credentials/SessionToken/text()"s,
+          expiration: ~x"./AssumeRoleResult/Credentials/Expiration/text()"s,
+          assumed_role_id: ~x"./AssumeRoleResult/AssumedRoleUser/AssumedRoleId/text()"s,
+          assumed_role_arn: ~x"./AssumeRoleResult/AssumedRoleUser/Arn/text()"s,
+          request_id: request_id_xpath()
+        )
+
+      {:ok, Map.put(resp, :body, parsed_body)}
+    end
+
     def parse({:ok, %{body: xml} = resp}, :get_caller_identity) do
       parsed_body =
         SweetXml.xpath(xml, ~x"//GetCallerIdentityResponse",
@@ -96,8 +122,8 @@ if Code.ensure_loaded?(SweetXml) do
       parsed_body =
         xml
         |> SweetXml.xpath(~x"//DecodeAuthorizationMessageResponse",
-          decoded_message: ~x"./DecodeAuthorizationMessageResult/DecodedMessage/text()"s,
-          request_id: request_id_xpath()
+          decoded_message: ~x"./DecodedMessage/text()"s,
+          request_id: ~x"./RequestId/text()"s
         )
         |> Map.update!(:decoded_message, fn msg -> config[:json_codec].decode!(msg) end)
 

@@ -1,5 +1,6 @@
 defmodule ExAws.STSTest do
   use ExUnit.Case, async: true
+
   alias ExAws.STS
 
   test "#get_caller_identity" do
@@ -17,15 +18,17 @@ defmodule ExAws.STSTest do
     version = "2011-06-15"
     arn = "1111111/test_role"
     name = "test role"
+    external_id = "test id"
 
     expected = %{
       "Action" => "AssumeRole",
       "RoleSessionName" => name,
       "RoleArn" => arn,
-      "Version" => version
+      "Version" => version,
+      "ExternalId" => external_id
     }
 
-    assert expected == STS.assume_role(arn, name).params
+    assert expected == STS.assume_role(arn, name, external_id: external_id).params
   end
 
   test "#assume_role_with_web_identity" do
@@ -45,6 +48,23 @@ defmodule ExAws.STSTest do
     assert expected == STS.assume_role_with_web_identity(arn, name, token).params
   end
 
+  test "#assume_role_with_saml" do
+    version = "2011-06-15"
+    principal_arn = "1111111/test_principal"
+    role_arn = "1111111/test_role"
+    saml_assertion = "assertioncontent" |> Base.encode64()
+
+    expected = %{
+      "Action" => "AssumeRoleWithSAML",
+      "PrincipalArn" => principal_arn,
+      "RoleArn" => role_arn,
+      "SAMLAssertion" => saml_assertion,
+      "Version" => version
+    }
+
+    assert expected == STS.assume_role_with_saml(principal_arn, role_arn, saml_assertion).params
+  end
+
   test "#decode_authorization_message" do
     version = "2011-06-15"
     message = "msgcontent"
@@ -56,6 +76,19 @@ defmodule ExAws.STSTest do
     }
 
     assert expected == STS.decode_authorization_message(message).params
+  end
+
+  test "#get_access_key_info" do
+    version = "2011-06-15"
+    key_id = "AKIAI44QH8DHBEXAMPLE"
+
+    expected = %{
+      "Action" => "GetAccessKeyInfo",
+      "AccessKeyId" => key_id,
+      "Version" => version
+    }
+
+    assert expected == STS.get_access_key_info(key_id).params
   end
 
   test "#get_federation_token" do
