@@ -64,9 +64,13 @@ defmodule ExAws.STS.AuthCache.AssumeRoleWebIdentityAdapter do
   end
 
   defp web_identity_token(config) do
-    path = config[:web_identity_token_file] || System.get_env("AWS_WEB_IDENTITY_TOKEN_FILE")
-    {:ok, token} = File.read(path)
-    token
+    config
+    |> web_identity_token_file()
+    |> File.read!()
+  end
+
+  defp web_identity_token_file(config) do
+    config[:web_identity_token_file] || System.get_env("AWS_WEB_IDENTITY_TOKEN_FILE")
   end
 
   defp env_role_arn(config) do

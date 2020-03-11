@@ -103,6 +103,16 @@ defmodule ExAws.STS.AuthCache.AssumeRoleWebIdentityAdapterTest do
     end
   end
 
+  describe "when the specified file does not exist" do
+    test "#adapt_auth_config" do
+      System.put_env("AWS_WEB_IDENTITY_TOKEN_FILE", "./does_not_exist")
+
+      assert_raise File.Error, fn ->
+        AssumeRoleWebIdentityAdapter.adapt_auth_config(%{}, nil, nil)
+      end
+    end
+  end
+
   defp test_loader(_config) do
     %{
       role_arn: "1111111/test_role",
