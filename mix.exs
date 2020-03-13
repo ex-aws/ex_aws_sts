@@ -43,9 +43,11 @@ defmodule ExAws.STS.Mixfile do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:mox, ">= 0.0.3", only: :test},
+      {:briefly, ">= 0.0.3", only: :test},
       {:ex_doc, ">= 0.0.0", only: :dev},
       {:hackney, ">= 0.0.0", only: [:dev, :test]},
-      {:sweet_xml, ">= 0.0.0", only: [:dev, :test]},
+      {:sweet_xml, ">= 0.0.0", only: [:dev]},
       {:poison, ">= 0.0.0", only: [:dev, :test]},
       ex_aws()
     ]
