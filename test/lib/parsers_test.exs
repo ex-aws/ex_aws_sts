@@ -10,6 +10,7 @@ defmodule ExAws.STS.ParsersTest do
     case arity do
       2 ->
         Parsers.parse(mock_response, action)
+
       3 ->
         config = [json_codec: Poison]
 
