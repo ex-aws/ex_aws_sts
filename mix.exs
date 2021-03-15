@@ -47,7 +47,7 @@ defmodule ExAws.STS.Mixfile do
       {:briefly, ">= 0.0.3", only: :test},
       {:ex_doc, ">= 0.0.0", only: :dev},
       {:hackney, ">= 0.0.0", only: [:dev, :test]},
-      {:sweet_xml, ">= 0.0.0", only: [:dev]},
+      {:sweet_xml, ">= 0.0.0", only: [:dev, :test]},
       {:poison, ">= 0.0.0", only: [:dev, :test]},
       ex_aws()
     ]
