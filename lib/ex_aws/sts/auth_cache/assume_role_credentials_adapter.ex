@@ -57,7 +57,5 @@ defmodule ExAws.STS.AuthCache.AssumeRoleCredentialsAdapter do
     Enum.max([Enum.min([max, seconds]), min])
   end
 
-  defp load_credentials(profile) do
-    ExAws.CredentialsIni.security_credentials(profile)
-  end
+  defp load_credentials(profile), do: ExAws.Config.awscli_auth_credentials(profile)
 end
