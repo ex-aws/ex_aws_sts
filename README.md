@@ -10,8 +10,8 @@ along with `:ex_aws` and your preferred JSON codec / http client
 ```elixir
 def deps do
   [
-    {:ex_aws, "~> 2.0"},
-    {:ex_aws_sts, "~> 2.0"},
+    {:ex_aws, "~> 2.2"},
+    {:ex_aws_sts, "~> 2.2"},
     {:poison, "~> 3.0"},
     {:hackney, "~> 1.9"},
   ]
@@ -35,7 +35,7 @@ Using the `:awscli_auth_adapter` option of `ex_aws` is supported, but requires a
 `awscli` config file.
  When specified in your `~/.aws/config` you can set 
   
-```
+```elixir
 config :ex_aws,
   secret_access_key: [{:awscli, "profile_name", 30}],
   access_key_id: [{:awscli, "profile_name", 30}],
@@ -46,6 +46,25 @@ and if the profile `profile_name` sets a `role_arn` then this will make ExAws
 issue an `AssumeRoleCredentials` request to fetch the `access_key_id` 
 and `secret_access_key`.
 
+### Using AWS CLI config from ENV vars
+It is possible to inject the credentials by configuration, for example, by using ENV vars. This is very useful for containerized applications.
+
+In order to do that, just place in the config the block `awscli_credentials` with your `profile_name` as key and the corresponding values. Then under `access_key_id` and `secret_access_key` just make a reference to the profile, so it will be used to ask for the credentials automatically.
+
+```elixir
+config :ex_aws,
+  access_key_id: [{:awscli, "default", 30}],
+  secret_access_key: [{:awscli, "default", 30}],
+  awscli_auth_adapter: ExAws.STS.AuthCache.AssumeRoleCredentialsAdapter,
+  awscli_credentials: %{
+    "default" => %{
+      role_arn: {:system, "AWS_ROLE_ARN"},
+      access_key_id: {:system, "AWS_ACCESS_KEY_ID"},
+      secret_access_key: {:system, "AWS_SECRET_ACCESS_KEY"},
+      source_profile: "default"
+    }
+  }
+```
 ### Using Web Identity tokens from ENV vars
 
 Similarly, it is possible to use a web identity token to perform the assume role operation. It currently uses the following env vars to obtain it:
