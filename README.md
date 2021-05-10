@@ -1,10 +1,16 @@
 # ExAws.STS
 
-Service module for https://github.com/ex-aws/ex_aws
+[![Module Version](https://img.shields.io/hexpm/v/ex_aws_sts.svg)](https://hex.pm/packages/ex_aws_sts)
+[![Hex Docs](https://img.shields.io/badge/hex-docs-lightgreen.svg)](https://hexdocs.pm/ex_aws_sts/)
+[![Total Download](https://img.shields.io/hexpm/dt/ex_aws_sts.svg)](https://hex.pm/packages/ex_aws_sts)
+[![License](https://img.shields.io/hexpm/l/ex_aws_sts.svg)](https://github.com/ex-aws/ex_aws_sts/blob/master/LICENSE)
+[![Last Updated](https://img.shields.io/github/last-commit/ex-aws/ex_aws_sts.svg)](https://github.com/ex-aws/ex_aws_sts/commits/master)
+
+Service module for [https://github.com/ex-aws/ex_aws](https://github.com/ex-aws/ex_aws).
 
 ## Installation
 
-The package can be installed by adding `ex_aws_sts` to your list of dependencies in `mix.exs`
+The package can be installed by adding `:ex_aws_sts` to your list of dependencies in `mix.exs`
 along with `:ex_aws` and your preferred JSON codec / http client
 
 ```elixir
@@ -31,10 +37,10 @@ Using the `:awscli_auth_adapter` option of `ex_aws` is supported, but requires a
 
 ### Using AWS CLI config file with source profile
 
-`ExAws.STS` allows to authentication based on `role_arn` and `source_profile` as specified in the 
+`ExAws.STS` allows to authentication based on `role_arn` and `source_profile` as specified in the
 `awscli` config file.
- When specified in your `~/.aws/config` you can set 
-  
+ When specified in your `~/.aws/config` you can set
+
 ```
 config :ex_aws,
   secret_access_key: [{:awscli, "profile_name", 30}],
@@ -42,8 +48,8 @@ config :ex_aws,
   awscli_auth_adapter: ExAws.STS.AuthCache.AssumeRoleCredentialsAdapter
 ```
 
-and if the profile `profile_name` sets a `role_arn` then this will make ExAws 
-issue an `AssumeRoleCredentials` request to fetch the `access_key_id` 
+and if the profile `profile_name` sets a `role_arn` then this will make ExAws
+issue an `AssumeRoleCredentials` request to fetch the `access_key_id`
 and `secret_access_key`.
 
 ### Using Web Identity tokens from ENV vars

@@ -16,17 +16,20 @@ defmodule ExAws.STS.Mixfile do
       deps: deps(),
       name: @name,
       package: package(),
-      docs: [main: @name, source_ref: "v#{@version}", source_url: @url]
+      docs: docs()
     ]
   end
 
   defp package do
     [
       description: "#{@name} service package",
-      files: ["lib", "config", "mix.exs", "README*"],
+      files: ["lib", "config", "mix.exs", "README*", "CHANGELOG*", "CONTRIBUTING*"],
       maintainers: ["Ben Wilson"],
       licenses: ["MIT"],
-      links: %{github: @url}
+      links: %{
+        Changelog: "https://hexdocs.pm/ex_aws_sts/changelog.html",
+        GitHub: @url
+      }
     ]
   end
 
@@ -45,11 +48,21 @@ defmodule ExAws.STS.Mixfile do
     [
       {:mox, ">= 0.0.3", only: :test},
       {:briefly, ">= 0.0.3", only: :test},
-      {:ex_doc, ">= 0.0.0", only: :dev},
+      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
       {:hackney, ">= 0.0.0", only: [:dev, :test]},
       {:sweet_xml, ">= 0.0.0", only: [:dev]},
       {:poison, ">= 0.0.0", only: [:dev, :test]},
       ex_aws()
+    ]
+  end
+
+  defp docs do
+    [
+      extras: ["CHANGELOG.md", "CONTRIBUTING.md", "README.md"],
+      main: "readme",
+      source_ref: "v#{@version}",
+      source_url: @url,
+      formatters: ["html"]
     ]
   end
 
