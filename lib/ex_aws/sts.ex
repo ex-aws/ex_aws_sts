@@ -1,8 +1,8 @@
 defmodule ExAws.STS do
   @moduledoc """
-  Operations on AWS STS
+  Operations on AWS STS.
 
-  http://docs.aws.amazon.com/STS/latest/APIReference/API_Operations.html
+  See https://docs.aws.amazon.com/STS/latest/APIReference/API_Operations.html
   """
 
   @type policy :: %{
@@ -16,7 +16,9 @@ defmodule ExAws.STS do
           | {:external_id, binary}
           | {:policy, policy}
 
-  @doc "Assume Role"
+  @doc """
+  Assume Role.
+  """
   @spec assume_role(role_arn :: String.t(), role_session_name :: String.t(), [assume_role_opt]) ::
           ExAws.Operation.Query.t()
   def assume_role(role_arn, role_session_name, opts \\ []) do
@@ -33,7 +35,9 @@ defmodule ExAws.STS do
           | {:provider_id, binary}
           | {:policy, policy}
 
-  @doc "Assume Role with Web Identity"
+  @doc """
+  Assume Role with Web Identity.
+  """
   @spec assume_role_with_web_identity(
           role_arn :: String.t(),
           role_session_name :: String.t(),
@@ -54,7 +58,9 @@ defmodule ExAws.STS do
           {:duration, pos_integer}
           | {:policy, policy}
 
-  @doc "Assume Role with SAML"
+  @doc """
+  Assume Role with SAML.
+  """
   @spec assume_role_with_saml(
           principal_arn :: String.t(),
           role_arn :: String.t(),
@@ -71,7 +77,9 @@ defmodule ExAws.STS do
     request(:assume_role_with_s_a_m_l, params)
   end
 
-  @doc "Decode Authorization Message"
+  @doc """
+  Decode Authorization Message.
+  """
   @spec decode_authorization_message(message :: String.t()) :: ExAws.Operation.Query.t()
   def decode_authorization_message(message) do
     request(:decode_authorization_message, %{"EncodedMessage" => message}, %{
@@ -79,13 +87,17 @@ defmodule ExAws.STS do
     })
   end
 
-  @doc "Get Access Key Info"
+  @doc """
+  Get Access Key Info.
+  """
   @spec get_access_key_info(key_id :: String.t()) :: ExAws.Operation.Query.t()
   def get_access_key_info(key_id) do
     request(:get_access_key_info, %{"AccessKeyId" => key_id})
   end
 
-  @doc "Get Caller Identity"
+  @doc """
+  Get Caller Identity.
+  """
   @spec get_caller_identity() :: ExAws.Operation.Query.t()
   def get_caller_identity() do
     request(:get_caller_identity, %{})
@@ -93,7 +105,9 @@ defmodule ExAws.STS do
 
   @type get_federation_token_opt :: {:duration, pos_integer} | {:policy, policy}
 
-  @doc "Get Federation Token"
+  @doc """
+  Get Federation Token.
+  """
   @spec get_federation_token(name :: String.t(), [get_federation_token_opt]) ::
           ExAws.Operation.Query.t()
   def get_federation_token(name, opts \\ []) do
@@ -109,7 +123,9 @@ defmodule ExAws.STS do
           | {:serial_number, binary}
           | {:token_code, binary}
 
-  @doc "Get Session Token"
+  @doc """
+  Get Session Token.
+  """
   @spec get_session_token([get_session_token_opt]) :: ExAws.Operation.Query.t()
   def get_session_token(opts \\ []) do
     params = parse_opts(opts)
