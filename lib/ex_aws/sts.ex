@@ -164,5 +164,7 @@ defmodule ExAws.STS do
   defp parse_opt(opts, {:serial_number, val}), do: Map.put(opts, "SerialNumber", val)
   defp parse_opt(opts, {:provider_id, val}), do: Map.put(opts, "ProviderId", val)
   defp parse_opt(opts, {:external_id, val}), do: Map.put(opts, "ExternalId", val)
-  defp parse_opt(opts, {:policy, val}), do: Map.put(opts, "Policy", Poison.encode!(val))
+  defp parse_opt(opts, {:policy, val}), do: Map.put(opts, "Policy", json_codec().encode!(val))
+
+  defp json_codec(), do: ExAws.Config.build_base(:sts) |> Map.get(:json_codec)
 end
