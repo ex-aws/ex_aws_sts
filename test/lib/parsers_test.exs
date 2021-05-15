@@ -12,7 +12,7 @@ defmodule ExAws.STS.ParsersTest do
         Parsers.parse(mock_response, action)
 
       3 ->
-        config = [json_codec: Poison]
+        config = [json_codec: Jason]
 
         Parsers.parse(mock_response, action, config)
     end
