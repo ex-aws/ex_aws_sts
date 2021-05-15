@@ -1,7 +1,7 @@
 defmodule ExAws.STS.Mixfile do
   use Mix.Project
 
-  @version "2.2.0"
+  @version "2.3.0"
   @service "sts"
   @url "https://github.com/ex-aws/ex_aws_#{@service}"
   @name __MODULE__ |> Module.split() |> Enum.take(2) |> Enum.join(".")
