@@ -7,25 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## v2.2.0 - 2020-05-14
 
-- Add ability to allow STS credentials to be injected by configuration
+- Added ability to allow STS credentials to be injected by configuration
 
 ## v2.1.0 - 2020-04-06
 
-* Change implementation to use `File.read!` for user-friendly error stack trace
-* Fix callback signature warning
-* Fix issue caused by changing key order in map
-* Remove unused entry point that doesn't implement callback behaviour
-* Add adapter for using Web Identity tokens when assuming role
-* Fix bug in XML parsing paths
-* Add missing typespec to `get_caller_identity/0`
-* Fix typespec on `assume_role_with_saml/4`
-* Add `AssumeRoleWithWebIdentity`, `GetAccessKeyInfo`, and `AssumeRoleWithSAML`
-* Match spec argument name with function argument
+* Changed implementation to use `File.read!` for user-friendly error stack trace
+* Fixed callback signature warning
+* Fixed issue caused by changing key order in map
+* Removed unused entry point that doesn't implement callback behaviour
+* Added adapter for using Web Identity tokens when assuming role
+* Fixed bug in XML parsing paths
+* Added missing typespec to `get_caller_identity/0`
+* Fixed typespec on `assume_role_with_saml/4`
+* Added `AssumeRoleWithWebIdentity`, `GetAccessKeyInfo`, and `AssumeRoleWithSAML`
 
 ## v2.0.1 - 2019-07-17
 
-* Fix issue with `AssumeRoleCredentialsAdapter`
-* Allow authentication base on `:source_profile` and `role_arn`
+* Fixed issue with `AssumeRoleCredentialsAdapter`
 
 ## v2.0.0 - 2017-11-10
 
