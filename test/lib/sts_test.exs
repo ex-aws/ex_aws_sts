@@ -111,7 +111,7 @@ defmodule ExAws.STSTest do
       "Action" => "GetFederationToken",
       "DurationSeconds" => duration,
       "Name" => name,
-      "Policy" => Poison.encode!(policy),
+      "Policy" => Jason.encode!(policy),
       "Version" => version
     }
 

@@ -10,16 +10,13 @@ Service module for [https://github.com/ex-aws/ex_aws](https://github.com/ex-aws/
 
 ## Installation
 
-The package can be installed by adding `:ex_aws_sts` to your list of dependencies in `mix.exs`
-along with `:ex_aws` and your preferred JSON codec / http client
+The package can be installed by adding `:ex_aws_sts` to your list of dependencies in `mix.exs` along with `:ex_aws`.
 
 ```elixir
 def deps do
   [
     {:ex_aws, "~> 2.2"},
     {:ex_aws_sts, "~> 2.2"},
-    {:poison, "~> 3.0"},
-    {:hackney, "~> 1.9"},
   ]
 end
 ```
@@ -37,8 +34,7 @@ Using the `:awscli_auth_adapter` option of `ex_aws` is supported, but requires a
 
 ### Using AWS CLI config file with source profile
 
-`ExAws.STS` allows to authentication based on `role_arn` and `source_profile` as specified in the
-`awscli` config file.
+`ExAws.STS` allows to authentication based on `role_arn` and `source_profile` as specified in the `awscli` config file.
 
 When specified in your `~/.aws/config` you can set 
  
@@ -54,6 +50,7 @@ issue an `AssumeRoleCredentials` request to fetch the `access_key_id`
 and `secret_access_key`.
 
 ### Using AWS CLI config from ENV vars
+
 It is possible to inject the credentials by configuration, for example, by using ENV vars. This is very useful for containerized applications.
 
 In order to do that, just place in the config the block `awscli_credentials` with your `profile_name` as key and the corresponding values. Then under `access_key_id` and `secret_access_key` just make a reference to the profile, so it will be used to ask for the credentials automatically.
@@ -72,6 +69,7 @@ config :ex_aws,
     }
   }
 ```
+
 ### Using Web Identity tokens from ENV vars
 
 Similarly, it is possible to use a web identity token to perform the assume role operation. It currently uses the following env vars to obtain it:
