@@ -81,6 +81,7 @@ Similarly, it is possible to use a web identity token to perform the assume role
 config :ex_aws,
   secret_access_key: [{:awscli, "profile_name", 30}],
   access_key_id: [{:awscli, "profile_name", 30}],
+  security_token: [{:awscli, "profile_name", 30}],
   awscli_auth_adapter: ExAws.STS.AuthCache.AssumeRoleWebIdentityAdapter
 ```
 

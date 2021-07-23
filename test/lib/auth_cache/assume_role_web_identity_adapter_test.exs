@@ -32,6 +32,7 @@ defmodule ExAws.STS.AuthCache.AssumeRoleWebIdentityAdapterTest do
         role_session_name: "test",
         access_key_id: "dummy",
         secret_access_key: "dummy",
+        security_token: "dummy",
         http_client: ExAws.Request.HttpMock
       }
 

@@ -56,10 +56,11 @@ defmodule ExAws.STS.AuthCache.AssumeRoleWebIdentityAdapter do
       role_arn: env_role_arn(config),
       role_session_name: role_session_name(config),
       web_identity_token: web_identity_token(config),
-      # necessary for now due to how ExAws.request() works
+      # Prevent recursive callback from ExAws.request()
+      # by overriding configs that use :awscli
       access_key_id: "dummy",
-      # necessary for now due to how ExAws.request() works
-      secret_access_key: "dummy"
+      secret_access_key: "dummy",
+      security_token: "dummy"
     }
   end
 
