@@ -83,5 +83,4 @@ defmodule ExAws.STS.AuthCache.AssumeRoleCredentialsAdapterTest do
     }
     |> XmlBuilder.generate()
   end
-
 end
