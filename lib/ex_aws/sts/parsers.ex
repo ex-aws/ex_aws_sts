@@ -32,7 +32,6 @@ if Code.ensure_loaded?(SweetXml) do
           assumed_role_arn: ~x"./AssumeRoleWithWebIdentityResult/AssumedRoleUser/Arn/text()"s,
           request_id: request_id_xpath()
         )
-
       {:ok, Map.put(resp, :body, parsed_body)}
     end
 
