@@ -52,6 +52,7 @@ defmodule ExAws.STS.Mixfile do
       {:hackney, ">= 0.0.0", only: [:dev, :test]},
       {:sweet_xml, ">= 0.0.0", only: [:dev, :test]},
       {:jason, ">= 0.0.0", only: [:dev, :test]},
+      {:xml_builder, "~> 2.1", only: [:test]},
       ex_aws()
     ]
   end

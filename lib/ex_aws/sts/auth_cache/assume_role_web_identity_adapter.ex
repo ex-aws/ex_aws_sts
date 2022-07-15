@@ -27,7 +27,13 @@ defmodule ExAws.STS.AuthCache.AssumeRoleWebIdentityAdapter do
         duration: duration
       )
 
-    with {:ok, result} <- ExAws.request(assume_role_request, auth) do
+    config_overrides =
+      case auth.use_regional_endpoints do
+        false -> auth |> Map.put(:host, "sts.amazonaws.com")
+        true -> auth
+      end
+
+    with {:ok, result} <- ExAws.request(assume_role_request, config_overrides) do
       %{
         access_key_id: result.body.access_key_id,
         secret_access_key: result.body.secret_access_key,
@@ -56,6 +62,8 @@ defmodule ExAws.STS.AuthCache.AssumeRoleWebIdentityAdapter do
       role_arn: env_role_arn(config),
       role_session_name: role_session_name(config),
       web_identity_token: web_identity_token(config),
+      region: aws_region(config),
+      use_regional_endpoints: use_regional_endpoints(config),
       # necessary for now due to how ExAws.request() works
       access_key_id: "dummy",
       # necessary for now due to how ExAws.request() works
@@ -79,5 +87,19 @@ defmodule ExAws.STS.AuthCache.AssumeRoleWebIdentityAdapter do
 
   defp role_session_name(config) do
     config[:role_session_name] || "default_session"
+  end
+
+  defp use_regional_endpoints(config) do
+    regional_endpoints =
+      config[:sts_regional_endpoints] || System.get_env("AWS_STS_REGIONAL_ENDPOINTS")
+
+    case regional_endpoints do
+      "regional" -> true
+      _ -> false
+    end
+  end
+
+  defp aws_region(config) do
+    System.get_env("AWS_REGION") || config[:region]
   end
 end
