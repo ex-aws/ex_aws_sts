@@ -28,8 +28,8 @@ Documentation can be found at [https://hexdocs.pm/ex_aws_sts](https://hexdocs.pm
 Using the `:awscli_auth_adapter` option of `ex_aws` is supported, but requires additional dependencies:
 
 ```elixir
-{:sweet_xml, "~> 0.6"}
-{:configparser_ex, "~> 2.0"}
+{:sweet_xml, "~> 0.7"}
+{:configparser_ex, "~> 4.0"}
 ```
 
 ### Using AWS CLI config file with source profile
