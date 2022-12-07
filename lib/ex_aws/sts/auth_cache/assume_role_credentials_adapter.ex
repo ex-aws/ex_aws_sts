@@ -16,6 +16,14 @@ defmodule ExAws.STS.AuthCache.AssumeRoleCredentialsAdapter do
     get_security_credentials(auth, source_profile_auth, expiration)
   end
 
+  def adapt_auth_config(%{credential_source: "Ec2InstanceMetadata"} = auth, _, expiration, _loader) do
+    instance_auth =
+      ExAws.Config.new(:sts, access_key_id: "dummy", secret_access_key: "dummy")
+      |>ExAws.InstanceMeta.security_credentials()
+
+    get_security_credentials(auth, instance_auth, expiration)
+  end
+
   def adapt_auth_config(auth, _, _, _), do: auth
 
   defp get_security_credentials(auth, source_profile_auth, expiration) do
@@ -39,8 +47,7 @@ defmodule ExAws.STS.AuthCache.AssumeRoleCredentialsAdapter do
         secret_access_key: result.body.secret_access_key,
         security_token: result.body.session_token,
         role_arn: auth.role_arn,
-        role_session_name: role_session_name,
-        source_profile: auth.source_profile
+        role_session_name: role_session_name
       }
     else
       {:error, reason} ->
