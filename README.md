@@ -62,9 +62,9 @@ config :ex_aws,
   awscli_auth_adapter: ExAws.STS.AuthCache.AssumeRoleCredentialsAdapter,
   awscli_credentials: %{
     "default" => %{
-      role_arn: {:system, "AWS_ROLE_ARN"},
-      access_key_id: {:system, "AWS_ACCESS_KEY_ID"},
-      secret_access_key: {:system, "AWS_SECRET_ACCESS_KEY"},
+      role_arn: System.get_env("AWS_ROLE_ARN"),
+      access_key_id: System.get_env("AWS_ACCESS_KEY_ID"),
+      secret_access_key: System.get_env("AWS_SECRET_ACCESS_KEY"),
       source_profile: "default"
     }
   }
