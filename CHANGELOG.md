@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## v2.3.0 - 2020-05-15
 
-- Removed hardcoded `Poison` dependency, now uses configured `json_codec` within thP parent `ex_aws` module.
+- Removed hardcoded `Poison` dependency, now uses configured `json_codec` within the parent `ex_aws` module.
 
 ## v2.2.0 - 2020-05-14
 
