@@ -40,14 +40,16 @@ When specified in your `~/.aws/config` you can set
  
 ```elixir
 config :ex_aws,
-  secret_access_key: [{:awscli, "profile_name", 30}],
-  access_key_id: [{:awscli, "profile_name", 30}],
+  secret_access_key: [{:awscli, "profile_name", 1_800}],
+  access_key_id: [{:awscli, "profile_name", 1_800}],
   awscli_auth_adapter: ExAws.STS.AuthCache.AssumeRoleCredentialsAdapter
 ```
 
 and if the profile `profile_name` sets a `role_arn` then this will make ExAws
 issue an `AssumeRoleCredentials` request to fetch the `access_key_id`
 and `secret_access_key`.
+The third element in the tuple (1_800 in the example) is the desired expiration in seconds.
+[AWS enforces a minimum](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html#API_AssumeRole_RequestParameters) of 900 seconds (15 minutes).
 
 ### Using AWS CLI config from ENV vars
 
@@ -57,8 +59,8 @@ In order to do that, just place in the config the block `awscli_credentials` wit
 
 ```elixir
 config :ex_aws,
-  access_key_id: [{:awscli, "default", 30}],
-  secret_access_key: [{:awscli, "default", 30}],
+  access_key_id: [{:awscli, "default", 1_800}],
+  secret_access_key: [{:awscli, "default", 1_800}],
   awscli_auth_adapter: ExAws.STS.AuthCache.AssumeRoleCredentialsAdapter,
   awscli_credentials: %{
     "default" => %{
@@ -79,8 +81,8 @@ Similarly, it is possible to use a web identity token to perform the assume role
 
 ```elixir
 config :ex_aws,
-  secret_access_key: [{:awscli, "profile_name", 30}],
-  access_key_id: [{:awscli, "profile_name", 30}],
+  secret_access_key: [{:awscli, "profile_name", 1_800}],
+  access_key_id: [{:awscli, "profile_name", 1_800}],
   awscli_auth_adapter: ExAws.STS.AuthCache.AssumeRoleWebIdentityAdapter
 ```
 
