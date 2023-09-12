@@ -50,10 +50,11 @@ defmodule ExAws.STS.Mixfile do
       {:briefly, ">= 0.0.3", only: :test},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
       {:hackney, ">= 0.0.0", only: [:dev, :test]},
-      {:sweet_xml, ">= 0.0.0", only: [:dev, :test]},
       {:jason, ">= 0.0.0", only: [:dev, :test]},
-      ex_aws()
+      ex_aws(),
+      sweet_xml()
     ]
+    |> Enum.reject(&is_nil/1)
   end
 
   defp docs do
@@ -70,6 +71,13 @@ defmodule ExAws.STS.Mixfile do
     case System.get_env("AWS") do
       "LOCAL" -> {:ex_aws, path: "../ex_aws"}
       _ -> {:ex_aws, "~> 2.2"}
+    end
+  end
+
+  defp sweet_xml do
+    case System.get_env("SWEET_XML") do
+      "DISABLED" -> nil
+      _ -> {:sweet_xml, ">= 0.0.0", only: [:dev, :test]}
     end
   end
 end
