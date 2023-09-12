@@ -136,7 +136,25 @@ if Code.ensure_loaded?(SweetXml) do
   end
 else
   defmodule ExAws.STS.Parsers do
+    def parse({:ok, %{body: _xml} = _resp}, :assume_role), do: missing_sweetxml()
+
+    def parse({:ok, %{body: _xml} = _resp}, :assume_role_with_web_identity),
+      do: missing_sweetxml()
+
+    def parse({:ok, %{body: _xml} = _resp}, :get_access_key_info), do: missing_sweetxml()
+    def parse({:ok, %{body: _xml} = _resp}, :assume_role_with_s_a_m_l), do: missing_sweetxml()
+    def parse({:ok, %{body: _xml} = _resp}, :get_caller_identity), do: missing_sweetxml()
+    def parse({:ok, %{body: _xml} = _resp}, :get_federation_token), do: missing_sweetxml()
+    def parse({:ok, %{body: _xml} = _resp}, :get_session_token), do: missing_sweetxml()
+    def parse({:error, {_type, _http_status_code, %{body: _xml}}}, _), do: missing_sweetxml()
     def parse(val, _), do: val
+
+    def parse({:ok, %{body: _xml} = _resp}, :decode_authorization_message, _config),
+      do: missing_sweetxml()
+
     def parse(val, _, _), do: val
+
+    defp missing_sweetxml,
+      do: raise("Dependency sweet_xml is required for role based authentication")
   end
 end
