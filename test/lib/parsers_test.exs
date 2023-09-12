@@ -31,7 +31,7 @@ defmodule ExAws.STS.ParsersTest do
 
   if System.get_env("SWEET_XML") == "DISABLED" do
     for {action, arity} <- @actions do
-      test "raises missing sweet xml error for `:#{action}`" do
+      test "raises missing sweet_xml error for `:#{action}`" do
         assert_raise RuntimeError,
                     "Dependency sweet_xml is required for role based authentication",
                     fn -> parse_mock_response(unquote(action), unquote(arity)) end
