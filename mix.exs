@@ -54,7 +54,6 @@ defmodule ExAws.STS.Mixfile do
       {:jason, ">= 0.0.0", only: [:dev, :test]},
       ex_aws()
     ]
-    |> Enum.reject(&is_nil/1)
   end
 
   defp docs do
