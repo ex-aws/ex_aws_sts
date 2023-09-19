@@ -1,5 +1,5 @@
 defmodule ExAws.STS.ParsersTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case, async: false
 
   alias ExAws.STS.Parsers
 
@@ -37,6 +37,24 @@ defmodule ExAws.STS.ParsersTest do
 
       for {_, value} <- body do
         assert value && value != "", "did not parse value for response"
+      end
+    end
+  end
+
+  describe "when sweet_xml is not installed" do
+    setup do
+      Application.put_env(:ex_aws_sts, :xml_module, MissingSweetXml)
+
+      on_exit(fn ->
+        Application.delete_env(:ex_aws_sts, :xml_module)
+      end)
+    end
+
+    for {action, arity} <- @actions do
+      test "raises missing sweet_xml error for `:#{action}`" do
+        assert_raise RuntimeError,
+                     "Dependency sweet_xml is required for role based authentication",
+                     fn -> parse_mock_response(unquote(action), unquote(arity)) end
       end
     end
   end
